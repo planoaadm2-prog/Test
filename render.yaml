@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: convenios-privado
+    runtime: node
+    repo: https://github.com/planoaadm2-prog/Test
+    branch: mobile-privado
+    plan: starter
+    buildCommand: bash preparar-nuvem.sh
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: false
+    disk:
+      name: dados-financeiros
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 24
+      - key: DASHBOARD_HOST
+        value: 0.0.0.0
+      - key: DASHBOARD_DATA_DIR
+        value: /var/data/convenios
+      - key: DASHBOARD_COOKIE_SECURE
+        value: '1'
+      - key: DASHBOARD_SETUP_TOKEN
+        generateValue: true
