@@ -9,6 +9,7 @@ import {once} from 'node:events';
 test('mobile privado: configuração única, autenticação e dados sem histórico/documentos',async t=>{
  const directory=fs.mkdtempSync(path.join(os.tmpdir(),'mobile-private-'));
  process.env.DASHBOARD_DATA_DIR=directory;process.env.DASHBOARD_PORT='0';
+ process.env.DASHBOARD_COOKIE_SECURE='0';process.env.DASHBOARD_PUBLIC_ORIGIN='';
  process.env.DASHBOARD_SETUP_TOKEN=randomBytes(32).toString('base64url');
  const {server}=await import('../servidor.mjs');const {db,readState,saveState}=await import('../banco.mjs');
  if(!server.listening)await once(server,'listening');
