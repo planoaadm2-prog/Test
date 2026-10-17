@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="operations.css?v=gestao-20261017-15">
 <link rel="stylesheet" href="agenda-pro.css?v=agenda-20261017-18">
 <link rel="stylesheet" href="agenda-pro-v2.css?v=agenda-20261017-20">
+<link rel="stylesheet" href="agenda-pro-v3.css?v=agenda-20261017-21">
 <link rel="stylesheet" href="attendance.css?v=integrado-20261017-17">
 <body class="staff-page">
 <main>
@@ -98,12 +99,12 @@
 <h3>Cada cliente, um cuidado especial.</h3>
 <p>Consulte os horários, registre novas reservas e prepare os avisos por WhatsApp.</p>
 </div>
-<section class="availability-desk"><div class="availability-heading"><div><span class="staff-eyebrow">CONSULTA RÁPIDA</span><h3>Encontre um horário livre</h3><p>Pesquise o barbeiro e veja os intervalos disponíveis. O serviço será escolhido ao confirmar.</p></div><span class="availability-badge">Agendamento presencial</span></div><div class="availability-filters"><label>Nome do barbeiro<input id="deskbarbersearch" list="deskbarbernames" placeholder="Digite o nome ou deixe em branco"></label><datalist id="deskbarbernames"></datalist><label>Data de Manaus<input id="deskdate" type="date"></label><button id="desksearch" type="button">Buscar horários livres</button></div><div class="customer-lookup"><label>Cliente já cadastrado<input id="deskcustomersearch" list="deskcustomernames" placeholder="Digite nome, celular ou e-mail"></label><datalist id="deskcustomernames"></datalist><p id="deskcustomerstatus" class="help">Ao selecionar um cliente, nome e celular serão preenchidos no agendamento presencial.</p></div><p id="deskstatus" class="help" role="status"></p><div id="deskresults" class="availability-results"></div></section>
+<section class="availability-desk"><div class="availability-heading"><div><span class="staff-eyebrow">CONSULTA RÁPIDA</span><h3>Encontre um horário livre</h3><p>Pesquise o barbeiro e veja os intervalos disponíveis. O serviço será escolhido ao confirmar.</p></div><span class="availability-badge">Agendamento presencial</span></div><div class="availability-filters"><label>Nome do barbeiro<input id="deskbarbersearch" list="deskbarbernames" placeholder="Digite o nome ou deixe em branco"></label><datalist id="deskbarbernames"></datalist><label>Data de Manaus<input id="deskdate" type="date"></label><button id="desksearch" type="button">Buscar horários livres</button></div><p id="deskstatus" class="help" role="status"></p><div id="deskresults" class="availability-results"></div></section>
 <details class="new-booking">
 <summary id="adminbookingsummary">+ Registrar agendamento presencial</summary>
 <form id="adminbooking">
 <div class="grid">
-<label>Cliente<input id="newcustomer" maxlength="80" required>
+<label>Cliente<input id="newcustomer" list="bookingclientnames" maxlength="80" placeholder="Digite para buscar ou cadastrar" autocomplete="off" required><datalist id="bookingclientnames"></datalist>
 </label>
 <label>Celular com DDD<input id="newphone" type="tel" required>
 </label>
@@ -121,6 +122,7 @@
 </select>
 </label>
 </div>
+<div class="booking-client-tools"><p id="bookingclientstatus" class="help">Digite pelo menos 2 letras para procurar um cliente cadastrado.</p><div id="newclientbox" class="new-client-box" hidden><label>E-mail do novo cliente (opcional)<input id="newclientemail" type="email" maxlength="120" placeholder="cliente@exemplo.com"></label><button id="savewalkinclient" type="button">+ Cadastrar novo cliente</button></div></div>
 <p class="help">Sem preferência: o sistema escolhe um barbeiro disponível, priorizando quem tem menos reservas confirmadas no dia.</p>
 <p id="newbookingstatus" role="status">
 </p>
@@ -273,7 +275,7 @@
 </script>
 <script src="cash.js?v=gestao-20261017-15"></script>
 <script src="operations.js?v=gestao-20261017-15"></script>
-<script src="agenda-pro.js?v=agenda-20261017-20"></script>
+<script src="agenda-pro.js?v=agenda-20261017-21"></script>
 <script src="attendance-model.js?v=integrado-20261017-17"></script>
 <script src="attendance.js?v=integrado-20261017-17"></script>
 </body>
