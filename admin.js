@@ -50,7 +50,7 @@ $('barbercards').replaceChildren();
 $('count').textContent=bookings.length+' agendamento(s) · '+api.money(bookings.filter(r=>r.status==='confirmed').reduce((a,r)=>a+Number(r.price),0))+' confirmados';
 $('empty').hidden=bookings.length>0;
 
-for(const group of window.BarberTeam.group(bookings,barbers)){
+for(const group of window.BarberTeam.group(bookings,barbers).filter(item=>item.bookings.length)){
 const card=document.createElement('article');
 card.className='barber-agenda';
 
@@ -60,7 +60,8 @@ head.append(window.BarberTeam.portrait(group.name,group.photo_url));
 const title=document.createElement('div'),name=document.createElement('h3'),total=document.createElement('p');
 name.textContent=group.name;
 const confirmed=group.bookings.filter(r=>r.status==='confirmed');
-total.textContent=confirmed.length+' confirmado(s) · '+api.money(confirmed.reduce((sum,r)=>sum+Number(r.price),0))+(group.active?'':' · Inativo');
+const noPreference=confirmed.filter(r=>r.no_preference).length;
+total.textContent=confirmed.length+' confirmado(s) · '+api.money(confirmed.reduce((sum,r)=>sum+Number(r.price),0))+(noPreference?' · '+noPreference+' sem preferência':'');
 title.append(name,total);
 head.append(title);
 card.append(head);
@@ -79,14 +80,16 @@ when.textContent=r.starts_at.slice(11,16)+' — '+r.ends_at.slice(11,16);
 const customer=document.createElement('h4');
 customer.textContent=r.customer;
 const details=document.createElement('p');
-details.textContent=r.service_name+' · '+api.money(r.price)+(r.no_preference?' · Sem preferência (atribuição automática)':'');
+details.textContent=r.service_name+' · '+api.money(r.price);
 const phone=document.createElement('p');
 phone.textContent='Celular: '+r.phone;
 const state=document.createElement('span');
 state.className='booking-state';
 state.textContent=r.status==='cancelled'?'Cancelado'+(r.cancellation_source==='client'?' pelo cliente':r.cancellation_source==='shop'?' pela loja':' · origem não registrada'):r.attendance_state==='completed'?'Atendimento concluído':r.attendance_state==='arrived'?'Cliente recebido':'Confirmado';
 reservation.classList.add(r.status==='cancelled'?'state-cancelled':r.attendance_state==='completed'?'state-completed':r.attendance_state==='arrived'?'state-arrived':'state-confirmed');
-reservation.append(when,customer,details,phone,state);
+reservation.append(when,customer,details,phone);
+if(r.no_preference){const preference=document.createElement('span');preference.className='no-preference-badge';preference.textContent='Sem preferência · direcionado para '+group.name;reservation.append(preference);}
+reservation.append(state);
 if(r.status==='cancelled'&&r.cancellation_reason){const reason=document.createElement('p');reason.className='cancellation-reason';reason.textContent='Motivo: '+r.cancellation_reason;reservation.append(reason);}
 if(r.status==='confirmed'&&(!r.attendance_state||r.attendance_state==='scheduled')&&!r.no_show&&r.starts_at<=api.nowManaus()){const absent=document.createElement('button');absent.className='no-show-button';absent.textContent='Registrar falta';absent.onclick=async()=>{if(!confirm('Registrar que '+r.customer+' não compareceu?'))return;absent.disabled=true;try{await window.BarberOperations.markNoShow(r.id);await load();}catch(e){status(e.message);absent.disabled=false;}};reservation.append(absent);}
 const code=document.createElement('details'),codeTitle=document.createElement('summary'),codeValue=document.createElement('p');code.className='reservation-code';codeTitle.textContent='Código da reserva';codeValue.textContent=r.id;code.append(codeTitle,codeValue);reservation.append(code);

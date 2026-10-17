@@ -1,4 +1,5 @@
 .cancellation-reason{margin-top:10px!important;padding:11px 12px;border-radius:12px;background:#f5e9e4;color:#6f3428;font-size:13px}
+.no-preference-badge{display:table;margin:10px 0 6px;padding:7px 10px;border:1px solid #d9bd7d;border-radius:999px;background:#fff6df;color:#765415;font-size:11px;font-weight:800}
 .cancel-modal{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:20px;background:#102b20b8;backdrop-filter:blur(4px)}
 .cancel-modal[hidden]{display:none}
 .cancel-dialog{position:relative;width:min(520px,100%);margin:0;padding:30px;background:#fff;border:1px solid #d9dfd5;border-radius:24px;box-shadow:0 30px 80px #07160e66}
