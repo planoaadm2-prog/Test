@@ -1,0 +1,11 @@
+.cancellation-reason{margin-top:10px!important;padding:11px 12px;border-radius:12px;background:#f5e9e4;color:#6f3428;font-size:13px}
+.cancel-modal{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:20px;background:#102b20b8;backdrop-filter:blur(4px)}
+.cancel-modal[hidden]{display:none}
+.cancel-dialog{position:relative;width:min(520px,100%);margin:0;padding:30px;background:#fff;border:1px solid #d9dfd5;border-radius:24px;box-shadow:0 30px 80px #07160e66}
+.cancel-dialog h2{margin:7px 0 5px;font:30px Georgia;color:#18392c}
+.cancel-dialog textarea{display:block;width:100%;margin-top:7px;padding:13px;border:1px solid #aeb9ad;border-radius:12px;font:inherit;resize:vertical}
+.cancel-dialog-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.cancel-dialog-actions .secondary{background:#fff;color:#244535;border:1px solid #9eada3}
+.cancel-close{position:absolute;top:15px;right:15px;width:38px;height:38px;padding:0;border-radius:50%;font-size:24px}
+#cancelerror{color:#934431}
+@media(max-width:600px){.cancel-dialog{padding:25px 20px;border-radius:20px}.cancel-dialog-actions button{width:100%}}

@@ -1,6 +1,6 @@
 (function(){
 const $=id=>document.getElementById(id),api=window.BarberAPI;
-let session=window.StaffAuth.session(),privateDetails=new Map(),newBookingVersion=0,creatingBooking=false,financeReport=null,financeLoading=0,biLoading=0;
+let session=window.StaffAuth.session(),privateDetails=new Map(),newBookingVersion=0,creatingBooking=false,financeReport=null,financeLoading=0,biLoading=0,cancellingBooking=null;
 const status=text=>$('status').textContent=text;
 
 async function authorized(){return window.StaffAuth.token();
@@ -84,29 +84,30 @@ const phone=document.createElement('p');
 phone.textContent='Celular: '+r.phone;
 const state=document.createElement('span');
 state.className='booking-state';
-state.textContent=r.status==='cancelled'?'Cancelado':r.attendance_state==='completed'?'Atendimento concluído':r.attendance_state==='arrived'?'Cliente recebido':'Confirmado';
+state.textContent=r.status==='cancelled'?'Cancelado'+(r.cancellation_source==='client'?' pelo cliente':r.cancellation_source==='shop'?' pela loja':' · origem não registrada'):r.attendance_state==='completed'?'Atendimento concluído':r.attendance_state==='arrived'?'Cliente recebido':'Confirmado';
 reservation.classList.add(r.status==='cancelled'?'state-cancelled':r.attendance_state==='completed'?'state-completed':r.attendance_state==='arrived'?'state-arrived':'state-confirmed');
 reservation.append(when,customer,details,phone,state);
+if(r.status==='cancelled'&&r.cancellation_reason){const reason=document.createElement('p');reason.className='cancellation-reason';reason.textContent='Motivo: '+r.cancellation_reason;reservation.append(reason);}
 if(r.status==='confirmed'&&(!r.attendance_state||r.attendance_state==='scheduled')&&!r.no_show&&r.starts_at<=api.nowManaus()){const absent=document.createElement('button');absent.className='no-show-button';absent.textContent='Registrar falta';absent.onclick=async()=>{if(!confirm('Registrar que '+r.customer+' não compareceu?'))return;absent.disabled=true;try{await window.BarberOperations.markNoShow(r.id);await load();}catch(e){status(e.message);absent.disabled=false;}};reservation.append(absent);}
 const code=document.createElement('details'),codeTitle=document.createElement('summary'),codeValue=document.createElement('p');code.className='reservation-code';codeTitle.textContent='Código da reserva';codeValue.textContent=r.id;code.append(codeTitle,codeValue);reservation.append(code);
 addWhatsApp(reservation,r);
 
 if(r.status==='confirmed'&&(!r.attendance_state||r.attendance_state==='scheduled')){const cancel=document.createElement('button');
 cancel.className='cancel-booking';
-cancel.textContent='Cancelar reserva';
-cancel.onclick=async()=>{if(!confirm('Cancelar a reserva de '+r.customer+'?'))return;
-cancel.disabled=true;
-try{await request('/rest/v1/bookings?id=eq.'+r.id,{method:'PATCH',body:{status:'cancelled'}});
-status('Reserva cancelada. Horário liberado.');
-await load();
-}catch(e){status(e.message);
-cancel.disabled=false}};
+cancel.textContent='Cancelar horário';
+cancel.onclick=()=>openCancellation(r);
 reservation.append(cancel);
 }agendaDay.append(reservation);
 }
 $('barbercards').append(card);
 }
 }catch(e){status(e.message)}}
+function closeCancellation(){$('cancelmodal').hidden=true;$('cancelform').reset();$('cancelerror').textContent='';cancellingBooking=null;}
+function openCancellation(booking){cancellingBooking=booking;$('canceldetails').textContent=booking.customer+' · '+booking.service_name+' · '+booking.starts_at.slice(0,10).split('-').reverse().join('/')+' às '+booking.starts_at.slice(11,16);$('cancelmodal').hidden=false;$('cancelreason').focus();}
+$('closecancel').onclick=closeCancellation;
+$('abortcancel').onclick=closeCancellation;
+$('cancelmodal').onclick=e=>{if(e.target===$('cancelmodal'))closeCancellation();};
+$('cancelform').onsubmit=async e=>{e.preventDefault();const booking=cancellingBooking,reason=$('cancelreason').value.trim();if(!booking||reason.length<5){$('cancelerror').textContent='Informe um motivo com pelo menos 5 caracteres.';return;}const button=$('confirmcancel');button.disabled=true;$('cancelerror').textContent='';const notice=window.open('about:blank','_blank');try{await api.rpc('admin_cancel_booking',{p_booking:booking.id,p_reason:reason},await authorized());const cancelled={...booking,status:'cancelled',cancellation_source:'shop',cancellation_reason:reason};const message=window.BarberWhatsApp.message(cancelled,'cancelled',location.origin);const link=window.BarberWhatsApp.link(booking.phone,message);if(notice)notice.location.href=link;else window.location.href=link;closeCancellation();status('Reserva cancelada pela loja. Horário liberado e aviso preparado para o cliente.');await load();}catch(ex){if(notice)notice.close();$('cancelerror').textContent=ex.message+(String(ex.message).includes('admin_cancel_booking')?' Execute a atualização cancelamento-com-motivo.sql no Supabase.':'');status($('cancelerror').textContent);}finally{button.disabled=false;}};
 function addWhatsApp(container,booking){const group=document.createElement('details');
 group.className='whatsapp-actions';
 const summary=document.createElement('summary');summary.textContent='WhatsApp e avisos';group.append(summary);

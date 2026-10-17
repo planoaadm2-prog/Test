@@ -11,8 +11,9 @@
 <link rel="stylesheet" href="agenda-pro.css?v=agenda-20261017-18">
 <link rel="stylesheet" href="agenda-pro-v2.css?v=agenda-20261017-20">
 <link rel="stylesheet" href="agenda-pro-v3.css?v=agenda-20261017-21">
-<link rel="stylesheet" href="agenda-view.css?v=agenda-20261017-25">
-<link rel="stylesheet" href="agenda-view-v2.css?v=agenda-20261017-25">
+<link rel="stylesheet" href="agenda-view.css?v=agenda-20261017-26">
+<link rel="stylesheet" href="agenda-view-v2.css?v=agenda-20261017-26">
+<link rel="stylesheet" href="agenda-cancel.css?v=agenda-20261017-26">
 <link rel="stylesheet" href="attendance.css?v=integrado-20261017-17">
 <body class="staff-page">
 <main>
@@ -258,6 +259,20 @@
 </div>
 </section>
 </main>
+<div id="cancelmodal" class="cancel-modal" hidden>
+<section class="cancel-dialog" role="dialog" aria-modal="true" aria-labelledby="cancelheading">
+<button id="closecancel" class="cancel-close" type="button" aria-label="Fechar">×</button>
+<span class="staff-eyebrow">CANCELAMENTO PELA LOJA</span>
+<h2 id="cancelheading">Cancelar horário</h2>
+<p id="canceldetails" class="help"></p>
+<form id="cancelform">
+<label>Motivo que será informado ao cliente<textarea id="cancelreason" rows="4" minlength="5" maxlength="500" placeholder="Ex.: O barbeiro teve um imprevisto e não poderá atender neste horário." required></textarea></label>
+<p class="help">O horário será liberado e o WhatsApp abrirá com o aviso pronto para você confirmar o envio.</p>
+<p id="cancelerror" role="alert"></p>
+<div class="cancel-dialog-actions"><button id="confirmcancel">Cancelar e avisar pelo WhatsApp</button><button id="abortcancel" type="button" class="secondary">Voltar</button></div>
+</form>
+</section>
+</div>
 <script src="config.js?v=foto-separada-20261016-10">
 </script>
 <script src="api.js?v=foto-separada-20261016-10">
@@ -268,18 +283,18 @@
 </script>
 <script src="finance-model.js?v=foto-separada-20261016-10"></script>
 <script src="bi-model.js?v=bi-20261017-14"></script>
-<script src="whatsapp.js?v=foto-separada-20261016-10">
+<script src="whatsapp.js?v=agenda-20261017-26">
 </script>
 <script src="staff-auth.js?v=foto-separada-20261016-10">
 </script>
 <script src="staff-tabs.js?v=foto-separada-20261016-10">
 </script>
-<script src="admin.js?v=agenda-20261017-25">
+<script src="admin.js?v=agenda-20261017-26">
 </script>
 <script src="cash.js?v=gestao-20261017-15"></script>
 <script src="operations.js?v=gestao-20261017-22"></script>
 <script src="agenda-pro.js?v=agenda-20261017-21"></script>
 <script src="attendance-model.js?v=integrado-20261017-17"></script>
 <script src="attendance.js?v=integrado-20261017-17"></script>
-<script src="update-check.js?v=agenda-20261017-25" data-version="agenda-20261017-25"></script></body>
+<script src="update-check.js?v=agenda-20261017-26" data-version="agenda-20261017-26"></script></body>
 </html>
