@@ -3,4 +3,7 @@
 #date:focus{outline:4px solid #d8b67c;outline-offset:2px;border-color:#18392c}
 #date:disabled{opacity:.72;color:#44544a;background:#eef1ec}
 #date::-webkit-calendar-picker-indicator{width:28px;height:28px;padding:6px;cursor:pointer}
-@media(max-width:700px){.booking-date-field{width:100%;min-width:0;font-size:17px}#date{min-height:68px;font-size:21px;padding:14px 16px}}
+#timechoice{min-height:62px;padding:13px 46px 13px 16px;border:2px solid #567060;border-radius:12px;color:#142f23;font-size:20px;font-weight:700;background-color:#fff}
+label[for="timechoice"]{color:#18392c;font-size:16px;font-weight:700}
+#sumtime{font-size:17px;font-weight:800;color:#18392c}
+@media(max-width:700px){.booking-date-field{width:100%;min-width:0;font-size:17px}#date{min-height:68px;font-size:21px;padding:14px 16px}#timechoice{min-height:68px;font-size:21px;padding:14px 48px 14px 16px}label[for="timechoice"]{font-size:17px}#sumtime{font-size:19px}.details p{font-size:14px;align-items:center}}
