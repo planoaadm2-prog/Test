@@ -371,10 +371,11 @@ status('Você saiu do painel.');
 
 $('refresh').onclick=load;
 $('filter').onchange=load;
-$('all').onclick=()=>{$('filter').value='';
+$('all').onclick=()=>{$('filter').value=api.day();
 load()};
 
 const today=api.day(),monthStart=today.slice(0,8)+'01';
+$('filter').value=today;
 $('financestart').value=monthStart;
 $('financeend').value=today;
 $('financerefresh').onclick=loadFinance;
