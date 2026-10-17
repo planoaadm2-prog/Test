@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="agenda-pro.css?v=agenda-20261017-18">
 <link rel="stylesheet" href="agenda-pro-v2.css?v=agenda-20261017-20">
 <link rel="stylesheet" href="agenda-pro-v3.css?v=agenda-20261017-21">
+<link rel="stylesheet" href="agenda-view.css?v=agenda-20261017-24">
 <link rel="stylesheet" href="attendance.css?v=integrado-20261017-17">
 <body class="staff-page">
 <main>
@@ -142,6 +143,7 @@
 <p id="whatsappmode" class="help">Os botões abrirão a conversa com o cliente de cada reserva.</p>
 </details>
 <h3>Agenda por barbeiro</h3>
+<div class="agenda-legend" aria-label="Legenda da agenda"><span><i style="background:#4f8061"></i>Confirmado</span><span><i style="background:#c69543"></i>Cliente recebido</span><span><i style="background:#3c6f86"></i>Concluído</span><span><i style="background:#a66052"></i>Cancelado</span></div>
 <details class="new-booking"><summary>Bloquear horário, folga ou férias</summary><form id="blockform"><div class="grid"><label>Barbeiro<select id="blockbarber"><option value="">Toda a barbearia</option></select></label><label>Motivo<input id="blockreason" maxlength="120" placeholder="Ex.: Almoço, folga ou férias" required></label><label>Início<input id="blockstart" type="datetime-local" required></label><label>Fim<input id="blockend" type="datetime-local" required></label></div><button>Adicionar bloqueio</button></form><div id="blocklist" class="block-list"></div></details>
 <p id="count">
 </p>
@@ -271,12 +273,12 @@
 </script>
 <script src="staff-tabs.js?v=foto-separada-20261016-10">
 </script>
-<script src="admin.js?v=foto-separada-20261016-10">
+<script src="admin.js?v=agenda-20261017-24">
 </script>
 <script src="cash.js?v=gestao-20261017-15"></script>
 <script src="operations.js?v=gestao-20261017-22"></script>
 <script src="agenda-pro.js?v=agenda-20261017-21"></script>
 <script src="attendance-model.js?v=integrado-20261017-17"></script>
 <script src="attendance.js?v=integrado-20261017-17"></script>
-<script src="update-check.js?v=gestao-20261017-23" data-version="gestao-20261017-23"></script></body>
+<script src="update-check.js?v=agenda-20261017-24" data-version="agenda-20261017-24"></script></body>
 </html>

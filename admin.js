@@ -70,11 +70,12 @@ empty.className='agenda-empty';
 empty.textContent='Nenhuma reserva para este barbeiro no período selecionado.';
 card.append(empty);
 }
-for(const r of group.bookings){const reservation=document.createElement('div');
+let agendaDay=null,lastAgendaDate='';
+for(const r of group.bookings){const dateKey=r.starts_at.slice(0,10);if(dateKey!==lastAgendaDate){lastAgendaDate=dateKey;agendaDay=document.createElement('section');agendaDay.className='agenda-day';const dayTitle=document.createElement('h4');dayTitle.className='agenda-day-heading';dayTitle.textContent=new Intl.DateTimeFormat('pt-BR',{weekday:'long',day:'2-digit',month:'long',timeZone:'America/Manaus'}).format(new Date(dateKey+'T12:00:00-04:00'));agendaDay.append(dayTitle);card.append(agendaDay);}const reservation=document.createElement('div');
 reservation.className='reservation'+(r.status==='cancelled'?' cancelled':'');
 const when=document.createElement('p');
 when.className='reservation-time';
-when.textContent=r.starts_at.slice(0,10).split('-').reverse().join('/')+' · '+r.starts_at.slice(11,16)+' às '+r.ends_at.slice(11,16);
+when.textContent=r.starts_at.slice(11,16)+' — '+r.ends_at.slice(11,16);
 const customer=document.createElement('h4');
 customer.textContent=r.customer;
 const details=document.createElement('p');
@@ -84,12 +85,10 @@ phone.textContent='Celular: '+r.phone;
 const state=document.createElement('span');
 state.className='booking-state';
 state.textContent=r.status==='cancelled'?'Cancelado':r.attendance_state==='completed'?'Atendimento concluído':r.attendance_state==='arrived'?'Cliente recebido':'Confirmado';
+reservation.classList.add(r.status==='cancelled'?'state-cancelled':r.attendance_state==='completed'?'state-completed':r.attendance_state==='arrived'?'state-arrived':'state-confirmed');
 reservation.append(when,customer,details,phone,state);
 if(r.status==='confirmed'&&(!r.attendance_state||r.attendance_state==='scheduled')&&!r.no_show&&r.starts_at<=api.nowManaus()){const absent=document.createElement('button');absent.className='no-show-button';absent.textContent='Registrar falta';absent.onclick=async()=>{if(!confirm('Registrar que '+r.customer+' não compareceu?'))return;absent.disabled=true;try{await window.BarberOperations.markNoShow(r.id);await load();}catch(e){status(e.message);absent.disabled=false;}};reservation.append(absent);}
-const code=document.createElement('p');
-code.className='reservation-code';
-code.textContent='Código para o cliente: '+r.id;
-reservation.append(code);
+const code=document.createElement('details'),codeTitle=document.createElement('summary'),codeValue=document.createElement('p');code.className='reservation-code';codeTitle.textContent='Código da reserva';codeValue.textContent=r.id;code.append(codeTitle,codeValue);reservation.append(code);
 addWhatsApp(reservation,r);
 
 if(r.status==='confirmed'&&(!r.attendance_state||r.attendance_state==='scheduled')){const cancel=document.createElement('button');
@@ -103,13 +102,14 @@ await load();
 }catch(e){status(e.message);
 cancel.disabled=false}};
 reservation.append(cancel);
-}card.append(reservation);
+}agendaDay.append(reservation);
 }
 $('barbercards').append(card);
 }
 }catch(e){status(e.message)}}
-function addWhatsApp(container,booking){const group=document.createElement('div');
+function addWhatsApp(container,booking){const group=document.createElement('details');
 group.className='whatsapp-actions';
+const summary=document.createElement('summary');summary.textContent='WhatsApp e avisos';group.append(summary);
 const label=document.createElement('label');
 label.textContent='Mensagem ao cliente';
 const type=document.createElement('select');
