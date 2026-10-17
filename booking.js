@@ -124,7 +124,7 @@ gate(complete);
 $('name').value=p?.name||'';
 $('phone').value=p?.phone||'';
 $('bookingaccount').textContent=complete?'Agendando para '+p.name+'. Sua reserva ficará na sua conta.':'Complete nome e celular em Minha conta para agendar.';
-if(!complete){location.replace('/conta.html?completar=1');
+if(!complete){location.replace('conta.html?completar=1');
 $('gateheading').textContent='Complete seu cadastro';
 $('gatetext').textContent='Abra Minha conta e preencha nome e celular em “Meus dados” para liberar o agendamento.';
 }await slots();
