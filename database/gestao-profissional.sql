@@ -62,4 +62,14 @@ and exists(select 1 from public.barbers b where b.active and (p_barber is null o
 ) order by t;
 $$;
 grant execute on function public.available_slots(date,uuid,uuid) to anon,authenticated;
+
+create or replace function public.admin_search_customers(p_query text)
+returns table(id uuid,name text,phone text,email text) language sql stable security definer set search_path='' as $$
+ select p.id,p.name,p.phone,u.email::text from public.customer_profiles p join auth.users u on u.id=p.id
+ where public.is_admin() and length(trim(coalesce(p_query,'')))>=2 and
+ (p.name ilike '%'||trim(p_query)||'%' or p.phone like '%'||regexp_replace(p_query,'[^0-9]','','g')||'%' or u.email ilike '%'||trim(p_query)||'%')
+ order by p.name nulls last limit 12;
+$$;
+revoke all on function public.admin_search_customers(text) from public,anon;
+grant execute on function public.admin_search_customers(text) to authenticated;
 commit;

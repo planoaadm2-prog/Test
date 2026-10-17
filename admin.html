@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="cash.css?v=gestao-20261017-15">
 <link rel="stylesheet" href="operations.css?v=gestao-20261017-15">
 <link rel="stylesheet" href="agenda-pro.css?v=agenda-20261017-18">
+<link rel="stylesheet" href="agenda-pro-v2.css?v=agenda-20261017-20">
 <link rel="stylesheet" href="attendance.css?v=integrado-20261017-17">
 <body class="staff-page">
 <main>
@@ -97,7 +98,7 @@
 <h3>Cada cliente, um cuidado especial.</h3>
 <p>Consulte os horários, registre novas reservas e prepare os avisos por WhatsApp.</p>
 </div>
-<section class="availability-desk"><div class="availability-heading"><div><span class="staff-eyebrow">CONSULTA RÁPIDA</span><h3>Encontre um horário livre</h3><p>Pesquise o barbeiro, escolha o serviço e veja a agenda disponível.</p></div><span class="availability-badge">Agendamento presencial</span></div><div class="availability-filters"><label>Nome do barbeiro<input id="deskbarbersearch" list="deskbarbernames" placeholder="Digite o nome ou deixe em branco"></label><datalist id="deskbarbernames"></datalist><label>Serviço<select id="deskservice"><option value="">Escolha o serviço</option></select></label><label>Data de Manaus<input id="deskdate" type="date"></label><button id="desksearch" type="button">Buscar horários</button></div><p id="deskstatus" class="help" role="status"></p><div id="deskresults" class="availability-results"></div></section>
+<section class="availability-desk"><div class="availability-heading"><div><span class="staff-eyebrow">CONSULTA RÁPIDA</span><h3>Encontre um horário livre</h3><p>Pesquise o barbeiro e veja os intervalos disponíveis. O serviço será escolhido ao confirmar.</p></div><span class="availability-badge">Agendamento presencial</span></div><div class="availability-filters"><label>Nome do barbeiro<input id="deskbarbersearch" list="deskbarbernames" placeholder="Digite o nome ou deixe em branco"></label><datalist id="deskbarbernames"></datalist><label>Data de Manaus<input id="deskdate" type="date"></label><button id="desksearch" type="button">Buscar horários livres</button></div><div class="customer-lookup"><label>Cliente já cadastrado<input id="deskcustomersearch" list="deskcustomernames" placeholder="Digite nome, celular ou e-mail"></label><datalist id="deskcustomernames"></datalist><p id="deskcustomerstatus" class="help">Ao selecionar um cliente, nome e celular serão preenchidos no agendamento presencial.</p></div><p id="deskstatus" class="help" role="status"></p><div id="deskresults" class="availability-results"></div></section>
 <details class="new-booking">
 <summary id="adminbookingsummary">+ Registrar agendamento presencial</summary>
 <form id="adminbooking">
@@ -272,7 +273,7 @@
 </script>
 <script src="cash.js?v=gestao-20261017-15"></script>
 <script src="operations.js?v=gestao-20261017-15"></script>
-<script src="agenda-pro.js?v=agenda-20261017-19"></script>
+<script src="agenda-pro.js?v=agenda-20261017-20"></script>
 <script src="attendance-model.js?v=integrado-20261017-17"></script>
 <script src="attendance.js?v=integrado-20261017-17"></script>
 </body>
