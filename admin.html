@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="admin.css?v=foto-separada-20261016-10">
 <link rel="stylesheet" href="pole.css?v=poste-animado-20261017-12">
 <link rel="stylesheet" href="polish.css?v=visual-premium-20261017-13">
+<link rel="stylesheet" href="cash.css?v=gestao-20261017-15">
+<link rel="stylesheet" href="operations.css?v=gestao-20261017-15">
 <body class="staff-page">
 <main>
 <header class="staff-header">
@@ -45,6 +47,8 @@
 <span aria-hidden="true">▦</span>Agenda</button>
 <button id="nav-financeiro" role="tab" type="button" aria-selected="false" aria-controls="tab-financeiro" tabindex="-1">
 <span aria-hidden="true">R$</span>Financeiro</button>
+<button id="nav-caixa" role="tab" type="button" aria-selected="false" aria-controls="tab-caixa" tabindex="-1">
+<span aria-hidden="true">▣</span>Caixa diário</button>
 <button id="nav-bi" role="tab" type="button" aria-selected="false" aria-controls="tab-bi" tabindex="-1">
 <span aria-hidden="true">↗</span>BI e indicadores</button>
 <button id="nav-servicos" role="tab" type="button" aria-selected="false" aria-controls="tab-servicos" tabindex="-1">
@@ -132,6 +136,7 @@
 <p id="whatsappmode" class="help">Os botões abrirão a conversa com o cliente de cada reserva.</p>
 </details>
 <h3>Agenda por barbeiro</h3>
+<details class="new-booking"><summary>Bloquear horário, folga ou férias</summary><form id="blockform"><div class="grid"><label>Barbeiro<select id="blockbarber"><option value="">Toda a barbearia</option></select></label><label>Motivo<input id="blockreason" maxlength="120" placeholder="Ex.: Almoço, folga ou férias" required></label><label>Início<input id="blockstart" type="datetime-local" required></label><label>Fim<input id="blockend" type="datetime-local" required></label></div><button>Adicionar bloqueio</button></form><div id="blocklist" class="block-list"></div></details>
 <p id="count">
 </p>
 <div id="barbercards" class="barber-cards">
@@ -171,6 +176,11 @@
 <article class="bi-card"><div class="bi-card-title"><div><span class="staff-eyebrow">MOVIMENTO</span><h4>Horários mais ocupados</h4></div></div><div id="bihours" class="bi-bars"></div></article>
 <article class="bi-card bi-wide"><div class="bi-card-title"><div><span class="staff-eyebrow">EQUIPE</span><h4>Desempenho dos barbeiros</h4></div><span class="help">Receita recebida e atendimentos</span></div><div id="bistaff" class="bi-staff"></div></article>
 <article class="bi-card bi-wide bi-insight"><span class="staff-eyebrow">LEITURA RÁPIDA</span><h4>Resumo para decisão</h4><div id="biinsights" class="bi-insights"></div></article></div>
+</section>
+<section id="tab-caixa" class="staff-tabpanel" role="tabpanel" aria-labelledby="nav-caixa" hidden>
+<div class="section-intro"><h3>Controle de caixa</h3><p>Registre abertura, despesas, retiradas e fechamento. Os pagamentos dos atendimentos entram automaticamente no resumo.</p></div>
+<div class="cash-date"><label>Dia de Manaus<input id="cashdate" type="date"></label><button id="cashrefresh" type="button">Atualizar caixa</button></div>
+<div id="cashmetrics" class="metrics"></div><div class="cash-grid"><article class="cash-card"><h4>Abertura e fechamento</h4><form id="cashsessionform"><label>Valor de abertura (R$)<input id="cashopening" type="number" min="0" step="0.01" required></label><label>Valor contado no fechamento (R$)<input id="cashclosing" type="number" min="0" step="0.01"></label><label>Observações<textarea id="cashnotes" rows="3" maxlength="1000"></textarea></label><button id="cashsave">Salvar caixa</button></form><p id="cashdifference" class="cash-difference"></p></article><article class="cash-card"><h4>Novo lançamento</h4><form id="cashmovementform"><label>Tipo<select id="cashkind"><option value="expense">Despesa</option><option value="withdrawal">Retirada</option><option value="deposit">Reforço de caixa</option><option value="income">Outra entrada</option></select></label><label>Categoria<input id="cashcategory" maxlength="80" placeholder="Ex.: Produtos de limpeza" required></label><label>Descrição<input id="cashdescription" maxlength="300"></label><label>Valor (R$)<input id="cashamount" type="number" min="0.01" step="0.01" required></label><label>Forma<select id="cashmethod"><option value="cash">Dinheiro</option><option value="pix">Pix</option><option value="debit">Débito</option><option value="credit">Crédito</option><option value="transfer">Transferência</option><option value="other">Outro</option></select></label><button>Adicionar lançamento</button></form></article></div><article class="cash-card"><h4>Movimentações do dia</h4><div id="cashmovements" class="cash-movements"></div></article>
 </section>
 <section id="tab-servicos" class="staff-tabpanel" role="tabpanel" aria-labelledby="nav-servicos" hidden>
 <div class="section-intro">
@@ -252,5 +262,7 @@
 </script>
 <script src="admin.js?v=foto-separada-20261016-10">
 </script>
+<script src="cash.js?v=gestao-20261017-15"></script>
+<script src="operations.js?v=gestao-20261017-15"></script>
 </body>
 </html>

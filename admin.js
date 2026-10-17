@@ -85,6 +85,7 @@ const state=document.createElement('span');
 state.className='booking-state';
 state.textContent=r.status==='cancelled'?'Cancelado':r.attendance_state==='completed'?'Atendimento concluído':r.attendance_state==='arrived'?'Cliente recebido':'Confirmado';
 reservation.append(when,customer,details,phone,state);
+if(r.status==='confirmed'&&(!r.attendance_state||r.attendance_state==='scheduled')&&!r.no_show&&r.starts_at<=api.nowManaus()){const absent=document.createElement('button');absent.className='no-show-button';absent.textContent='Registrar falta';absent.onclick=async()=>{if(!confirm('Registrar que '+r.customer+' não compareceu?'))return;absent.disabled=true;try{await window.BarberOperations.markNoShow(r.id);await load();}catch(e){status(e.message);absent.disabled=false;}};reservation.append(absent);}
 const code=document.createElement('p');
 code.className='reservation-code';
 code.textContent='Código para o cliente: '+r.id;
