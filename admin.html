@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="polish.css?v=visual-premium-20261017-13">
 <link rel="stylesheet" href="cash.css?v=gestao-20261017-15">
 <link rel="stylesheet" href="operations.css?v=gestao-20261017-15">
+<link rel="stylesheet" href="attendance.css?v=integrado-20261017-17">
 <body class="staff-page">
 <main>
 <header class="staff-header">
@@ -55,9 +56,9 @@
 <span aria-hidden="true">✂</span>Serviços</button>
 <button id="nav-barbeiros" role="tab" type="button" aria-selected="false" aria-controls="tab-barbeiros" tabindex="-1">
 <span aria-hidden="true">♙</span>Barbeiros</button>
+<button id="nav-atendimentos" role="tab" type="button" aria-selected="false" aria-controls="tab-atendimentos" tabindex="-1">
+<span aria-hidden="true">✓</span>Atendimentos</button>
 </div>
-<a class="attendance-nav-link" href="atendimentos.html">
-<span aria-hidden="true">✓</span>Atendimentos ↗</a>
 <p class="sidebar-caption">Uma agenda organizada.<br>Mais tempo para atender bem.</p>
 </aside>
 <div class="staff-content">
@@ -240,6 +241,11 @@
 </article>
 </div>
 </section>
+<section id="tab-atendimentos" class="staff-tabpanel" role="tabpanel" aria-labelledby="nav-atendimentos" hidden>
+<div class="section-intro"><h3>Recepção e pagamentos</h3><p>Confirme a chegada, registre procedimentos extras, forma de pagamento e conclusão.</p></div><p id="visitstatus" role="status" tabindex="-1"></p>
+<div id="visitpanel"><div class="visit-filters"><label>Dia de Manaus<input id="visitdate" type="date" required></label><label>Buscar cliente<input id="visitsearch" type="search" placeholder="Nome do cliente"></label><label>Situação<select id="visitstate"><option value="all">Todos</option><option value="scheduled">Aguardando chegada</option><option value="arrived">Em atendimento</option><option value="completed">Concluídos</option><option value="cancelled">Cancelados</option></select></label><button id="visitrefresh">Atualizar</button></div><div id="visitmetrics" class="metrics"></div><div id="visitlist" class="visit-list"></div><p id="visitempty" hidden>Nenhum atendimento encontrado para esses filtros.</p></div>
+<section id="visiteditor" class="visit-editor" hidden><div class="row"><h2 id="visitclient"></h2><button id="closevisit" type="button">Fechar</button></div><p id="visitdetails"></p><p id="visittimestamps" class="help"></p><form id="visitform"><h3>Procedimentos extras</h3><p class="help">Informe os procedimentos realmente realizados e seus valores.</p><div class="extra-shortcuts"><button id="addhydration" type="button">+ Hidratação</button><button id="addbrush" type="button">+ Escova</button><button id="addextra" type="button">+ Outro procedimento</button></div><div id="visitextras"></div><div class="grid"><section><h3>Valores</h3><p class="bill-line"><span>Serviço agendado</span><strong id="baseamount"></strong></p><p class="bill-line"><span>Procedimentos extras</span><strong id="extraamount"></strong></p><label>Desconto (R$)<input id="visitdiscount" type="number" min="0" step="0.01" value="0" required></label><p class="bill-total"><span>Total do atendimento</span><strong id="totalamount"></strong></p></section><section><h3>Pagamento</h3><label class="payment-check"><input id="visitpaid" type="checkbox"> Pagamento recebido</label><label>Forma de pagamento<select id="visitmethod"><option value="">Selecione</option><option value="pix">Pix</option><option value="cash">Dinheiro</option><option value="debit">Cartão de débito</option><option value="credit">Cartão de crédito</option><option value="transfer">Transferência</option><option value="courtesy">Cortesia</option><option value="other">Outro</option></select></label></section></div><label>Observações<textarea id="visitnotes" maxlength="2000" rows="3"></textarea></label><p id="visiterror" role="alert"></p><div class="extra-shortcuts"><button id="savevisit" type="submit">Salvar atendimento</button><button id="finishvisit" type="button">Concluir atendimento e pagamento</button></div></form></section>
+</section>
 </div>
 </div>
 </section>
@@ -264,5 +270,7 @@
 </script>
 <script src="cash.js?v=gestao-20261017-15"></script>
 <script src="operations.js?v=gestao-20261017-15"></script>
+<script src="attendance-model.js?v=integrado-20261017-17"></script>
+<script src="attendance.js?v=integrado-20261017-17"></script>
 </body>
 </html>
