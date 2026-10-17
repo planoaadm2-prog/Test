@@ -1,1 +1,1 @@
-{"version": "poste-animado-20261017-12", "login_first": true, "staff_tabs": true, "finance_report": true, "barber_photos": true, "barber_photos_on_entry": true, "standalone_photo_upload": true, "mobile_photos_uncropped": true, "animated_barber_pole": true, "booking_page": "agendar.html", "staff_attendance_page": "atendimentos.html"}
+{"version":"gestao-20261017-23","released_at":"2026-10-17","update_popup":true,"features":["agenda profissional","clientes presenciais","caixa diário","BI","atendimentos integrados"]}
