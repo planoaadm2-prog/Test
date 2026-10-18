@@ -106,15 +106,22 @@ begin
    'scheduled_value',(select coalesce(sum(b.price),0) from public.bookings b where b.starts_at::date between p_start and p_end and b.status='confirmed'),
    'active_days',(select count(distinct (b.created_at at time zone 'America/Manaus')::date) from public.bookings b where (b.created_at at time zone 'America/Manaus')::date between p_start and p_end),
    'logins',(select count(*) from public.kryon_usage_events e where (e.happened_at at time zone 'America/Manaus')::date between p_start and p_end),
+   'logins_today',(select count(*) from public.kryon_usage_events e where (e.happened_at at time zone 'America/Manaus')::date=(clock_timestamp() at time zone 'America/Manaus')::date),
+   'changes',(select count(*) from public.kryon_booking_events e where (e.happened_at at time zone 'America/Manaus')::date between p_start and p_end),
+   'changes_today',(select count(*) from public.kryon_booking_events e where (e.happened_at at time zone 'America/Manaus')::date=(clock_timestamp() at time zone 'America/Manaus')::date),
+   'usage_days',(select count(distinct x.day) from (select (e.happened_at at time zone 'America/Manaus')::date day from public.kryon_usage_events e union all select (e.happened_at at time zone 'America/Manaus')::date from public.kryon_booking_events e) x where x.day between p_start and p_end),
+   'last_login_at',(select max(e.happened_at) from public.kryon_usage_events e),
    'last_booking_at',(select max(b.created_at) from public.bookings b),
-   'last_change_at',(select max(e.happened_at) from public.kryon_booking_events e)
+   'last_change_at',(select max(e.happened_at) from public.kryon_booking_events e),
+   'last_system_activity_at',(select max(x.moment) from (select max(e.happened_at) moment from public.kryon_usage_events e union all select max(e.happened_at) from public.kryon_booking_events e) x)
   ),
   'daily',coalesce((select jsonb_agg(jsonb_build_object('day',d.day::date,'bookings',coalesce(x.bookings,0),'cancelled',coalesce(x.cancelled,0)) order by d.day) from generate_series(p_start,p_end,interval '1 day') d(day) left join lateral (select count(*) filter(where b.status='confirmed') bookings,count(*) filter(where b.status='cancelled') cancelled from public.bookings b where b.starts_at::date=d.day::date) x on true),'[]'::jsonb),
   'services',coalesce((select jsonb_agg(to_jsonb(x) order by x.total desc,x.name) from (select b.service_name name,count(*) total from public.bookings b where b.starts_at::date between p_start and p_end and b.status='confirmed' group by b.service_name limit 10) x),'[]'::jsonb),
   'barbers',coalesce((select jsonb_agg(to_jsonb(x) order by x.total desc,x.name) from (select b.barber_name name,count(*) total from public.bookings b where b.starts_at::date between p_start and p_end and b.status='confirmed' group by b.barber_name limit 20) x),'[]'::jsonb),
   'hours',coalesce((select jsonb_agg(to_jsonb(x) order by x.total desc,x.name) from (select to_char(b.starts_at,'HH24:00') name,count(*) total from public.bookings b where b.starts_at::date between p_start and p_end and b.status='confirmed' group by 1 limit 12) x),'[]'::jsonb),
   'recent',coalesce((select jsonb_agg(to_jsonb(x) order by x.created_at desc) from (select b.id,b.customer,b.phone,b.service_name,b.barber_name,b.starts_at,b.status,b.attendance_state,b.no_preference,b.created_at from public.bookings b order by b.created_at desc limit 40) x),'[]'::jsonb),
-  'events',coalesce((select jsonb_agg(to_jsonb(x) order by x.id desc) from (select e.id,e.event_type,e.customer,e.service_name,e.barber_name,e.starts_at,e.snapshot,e.happened_at from public.kryon_booking_events e order by e.id desc limit 80) x),'[]'::jsonb)
+  'events',coalesce((select jsonb_agg(to_jsonb(x) order by x.id desc) from (select e.id,e.event_type,e.customer,e.service_name,e.barber_name,e.starts_at,e.snapshot,e.happened_at from public.kryon_booking_events e order by e.id desc limit 80) x),'[]'::jsonb),
+  'accesses',coalesce((select jsonb_agg(to_jsonb(x) order by x.id desc) from (select e.id,e.event_type,u.email,e.happened_at from public.kryon_usage_events e left join auth.users u on u.id=e.user_id order by e.id desc limit 80) x),'[]'::jsonb)
  ) into result;
  return result;
 end;$$;
