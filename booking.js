@@ -92,10 +92,11 @@ const s=services.find(s=>s.id===selection.p_service),b=barbers.find(b=>b.id===se
 busy=true;
 $('confirm').disabled=true;
 try{const id=await window.CustomerAuth.rpc('customer_book',selection);
-let assigned=b?.name||'barbeiro atribuído (consulte Meus agendamentos)';
+let assigned=b?.name||'';
 if(!b){try{const records=await window.CustomerAuth.request('/rest/v1/bookings?id=eq.'+encodeURIComponent(id)+'&select=barber_name');
 if(records[0]?.barber_name)assigned=records[0].barber_name;
-}catch{}}$('successdetail').textContent=`${s.name} com ${assigned}, ${new Date(selection.p_date+'T12:00:00').toLocaleDateString('pt-BR')} às ${selection.p_time}.`;
+}catch{}}const bookingDate=new Date(selection.p_date+'T12:00:00').toLocaleDateString('pt-BR');
+$('successdetail').textContent=assigned?`${s.name} com ${assigned}, ${bookingDate} às ${selection.p_time}.`:`${s.name}, sem preferência de barbeiro, ${bookingDate} às ${selection.p_time}. A equipe já recebeu sua reserva.`;
 $('reservationcode').value=id;
 $('copyfeedback').textContent='';
 $('canceldeadline').textContent='Consulte sua conta para cancelar ou alterar até uma hora antes do atendimento (Manaus).';
