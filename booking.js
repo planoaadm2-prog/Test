@@ -83,7 +83,7 @@ $('teamcards').append(card);
 $('form').onsubmit=async e=>{e.preventDefault();
 if(busy)return;
 $('error').textContent='';
-if(!canBook||!window.CustomerAuth.isSignedIn()){location.href='/#entrar';
+if(!canBook||!window.CustomerAuth.isSignedIn()){location.href=(api.base?api.base():location.origin)+'/#entrar';
 return;
 }if(!$('timechoice').value){$('error').textContent='Selecione um horário.';
 return;
