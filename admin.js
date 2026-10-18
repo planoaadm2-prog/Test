@@ -12,6 +12,8 @@ window.StaffAuth.clear();
 $('panel').hidden=true;
 $('login').hidden=false;
 $('barbercards').replaceChildren();
+$('nopreferencesummary').hidden=true;
+$('nopreferencelist').replaceChildren();
 $('password').value='';
 privateDetails.clear();
 financeReport=null;
@@ -49,6 +51,10 @@ renderDashboard(bookings,barbers);
 $('barbercards').replaceChildren();
 $('count').textContent=bookings.length+' agendamento(s) · '+api.money(bookings.filter(r=>r.status==='confirmed').reduce((a,r)=>a+Number(r.price),0))+' confirmados';
 $('empty').hidden=bookings.length>0;
+const noPreferenceBookings=bookings.filter(r=>r.no_preference&&r.status==='confirmed');
+$('nopreferencesummary').hidden=!noPreferenceBookings.length;
+$('nopreferencelist').replaceChildren();
+for(const r of noPreferenceBookings){const item=document.createElement('div'),time=document.createElement('strong'),client=document.createElement('span'),assigned=document.createElement('small');time.textContent=r.starts_at.slice(11,16);client.textContent=r.customer;assigned.textContent='Direcionado para '+r.barber_name;item.append(time,client,assigned);$('nopreferencelist').append(item);}
 
 for(const group of window.BarberTeam.group(bookings,barbers).filter(item=>item.bookings.length)){
 const card=document.createElement('article');

@@ -11,9 +11,9 @@
 <link rel="stylesheet" href="agenda-pro.css?v=agenda-20261017-18">
 <link rel="stylesheet" href="agenda-pro-v2.css?v=agenda-20261017-20">
 <link rel="stylesheet" href="agenda-pro-v3.css?v=agenda-20261017-21">
-<link rel="stylesheet" href="agenda-view.css?v=agenda-20261017-30">
-<link rel="stylesheet" href="agenda-view-v2.css?v=agenda-20261017-30">
-<link rel="stylesheet" href="agenda-cancel.css?v=agenda-20261017-30">
+<link rel="stylesheet" href="agenda-view.css?v=agenda-20261018-31">
+<link rel="stylesheet" href="agenda-view-v2.css?v=agenda-20261018-31">
+<link rel="stylesheet" href="agenda-cancel.css?v=agenda-20261018-31">
 <link rel="stylesheet" href="attendance.css?v=integrado-20261017-17">
 <body class="staff-page">
 <main>
@@ -149,6 +149,10 @@
 <details class="new-booking"><summary>Bloquear horário, folga ou férias</summary><form id="blockform"><div class="grid"><label>Barbeiro<select id="blockbarber"><option value="">Toda a barbearia</option></select></label><label>Motivo<input id="blockreason" maxlength="120" placeholder="Ex.: Almoço, folga ou férias" required></label><label>Início<input id="blockstart" type="datetime-local" required></label><label>Fim<input id="blockend" type="datetime-local" required></label></div><button>Adicionar bloqueio</button></form><div id="blocklist" class="block-list"></div></details>
 <p id="count">
 </p>
+<section id="nopreferencesummary" class="no-preference-summary" hidden>
+<div><span class="staff-eyebrow">SEM PREFERÊNCIA</span><h3>Clientes direcionados automaticamente</h3></div>
+<div id="nopreferencelist" class="no-preference-list"></div>
+</section>
 <div id="barbercards" class="barber-cards">
 </div>
 <p id="empty" hidden>Nenhum agendamento encontrado.</p>
@@ -283,18 +287,18 @@
 </script>
 <script src="finance-model.js?v=foto-separada-20261016-10"></script>
 <script src="bi-model.js?v=bi-20261017-14"></script>
-<script src="whatsapp.js?v=agenda-20261017-30">
+<script src="whatsapp.js?v=agenda-20261018-31">
 </script>
 <script src="staff-auth.js?v=foto-separada-20261016-10">
 </script>
 <script src="staff-tabs.js?v=foto-separada-20261016-10">
 </script>
-<script src="admin.js?v=agenda-20261017-30">
+<script src="admin.js?v=agenda-20261018-31">
 </script>
 <script src="cash.js?v=gestao-20261017-15"></script>
 <script src="operations.js?v=gestao-20261017-22"></script>
 <script src="agenda-pro.js?v=agenda-20261017-21"></script>
 <script src="attendance-model.js?v=integrado-20261017-17"></script>
 <script src="attendance.js?v=integrado-20261017-17"></script>
-<script src="update-check.js?v=agenda-20261017-30" data-version="agenda-20261017-30"></script></body>
+<script src="update-check.js?v=agenda-20261018-31" data-version="agenda-20261018-31"></script></body>
 </html>

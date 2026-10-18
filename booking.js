@@ -34,7 +34,9 @@ return;
 }if(!$('date').value||!$('servicechoice').value||!$('barberchoice').value)return;
 $('datehint').textContent='Consultando horários…';
 try{const any=$('barberchoice').value==='any';
-const response=await api.rpc(any?'available_options':'available_slots',any?{p_date:$('date').value,p_service:$('servicechoice').value}:{p_date:$('date').value,p_barber:$('barberchoice').value,p_service:$('servicechoice').value});
+let response;
+if(any){try{response=await api.rpc('available_options',{p_date:$('date').value,p_service:$('servicechoice').value});}catch(ex){if(!/available_options|schema cache|could not find the function/i.test(String(ex.message)))throw ex;const byBarber=await Promise.all(barbers.map(async b=>({barber:b,slots:await api.rpc('available_slots',{p_date:$('date').value,p_barber:b.id,p_service:$('servicechoice').value})})));response=byBarber.flatMap(row=>row.slots.map(item=>({slot:typeof item==='string'?item:item.slot,barbers:[row.barber.name]})));}}
+else response=await api.rpc('available_slots',{p_date:$('date').value,p_barber:$('barberchoice').value,p_service:$('servicechoice').value});
 const result=window.BarberAvailability.rows(response);
 if(current!==generation)return;
 availableRows=result;
@@ -100,7 +102,7 @@ $('canceldeadline').textContent='Consulte sua conta para cancelar ou alterar at�
 $('confirmation').hidden=false;
 $('confirmation').scrollIntoView({behavior:'smooth',block:'center'});
 $('timechoice').value='';
-}catch(ex){$('error').textContent=ex.message;
+}catch(ex){$('error').textContent=$('barberchoice').value==='any'&&/barbeiro|customer_book|schema cache|function/i.test(String(ex.message))?'A reserva sem preferência ainda precisa ser ativada no sistema da barbearia. Tente novamente após a atualização ou escolha um barbeiro específico.':ex.message;
 }finally{busy=false;
 await slots();
 }};
