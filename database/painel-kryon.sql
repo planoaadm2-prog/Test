@@ -1,6 +1,16 @@
 -- Painel independente da Kryon. Execute este arquivo inteiro no SQL Editor do Supabase.
 begin;
 
+-- Compatibilidade com instalações que ainda não receberam todos os módulos
+-- de agenda e atendimento.
+alter table public.bookings add column if not exists attendance_state text not null default 'scheduled';
+alter table public.bookings add column if not exists no_show boolean not null default false;
+alter table public.bookings add column if not exists no_show_at timestamptz;
+alter table public.bookings add column if not exists no_preference boolean not null default false;
+alter table public.bookings add column if not exists cancellation_source text;
+alter table public.bookings add column if not exists cancellation_reason text;
+alter table public.bookings add column if not exists cancelled_at timestamptz;
+
 create table if not exists public.kryon_admins(
  user_id uuid primary key references auth.users(id) on delete cascade,
  created_at timestamptz not null default clock_timestamp()
