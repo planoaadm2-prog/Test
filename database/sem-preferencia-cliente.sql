@@ -44,5 +44,15 @@ revoke all on function public.available_options(date,uuid) from public;
 grant execute on function public.available_slots(date,uuid,uuid),public.available_options(date,uuid) to anon,authenticated;
 revoke all on function public.customer_book(date,text,uuid,uuid) from public,anon;
 grant execute on function public.customer_book(date,text,uuid,uuid) to authenticated;
+
+create or replace function public.customer_book_with_assignment(p_date date,p_time text,p_service uuid)
+returns table(booking_id uuid,barber_name text) language plpgsql security definer set search_path='' as $$
+declare result uuid;
+begin
+ result:=public.customer_book(p_date,p_time,null,p_service);
+ return query select r.id,r.barber_name from public.bookings r where r.id=result and r.customer_id=auth.uid();
+end;$$;
+revoke all on function public.customer_book_with_assignment(date,text,uuid) from public,anon;
+grant execute on function public.customer_book_with_assignment(date,text,uuid) to authenticated;
 commit;
 notify pgrst,'reload schema';

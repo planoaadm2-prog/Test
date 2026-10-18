@@ -91,8 +91,9 @@ return;
 const s=services.find(s=>s.id===selection.p_service),b=barbers.find(b=>b.id===selection.p_barber);
 busy=true;
 $('confirm').disabled=true;
-try{const id=await window.CustomerAuth.rpc('customer_book',selection);
-let assigned=b?.name||'';
+try{let id,assigned=b?.name||'';
+if(selection.p_barber===null){try{const result=await window.CustomerAuth.rpc('customer_book_with_assignment',{p_date:selection.p_date,p_time:selection.p_time,p_service:selection.p_service});const row=Array.isArray(result)?result[0]:result;if(!row?.booking_id)throw Error('A confirmação não retornou a reserva.');id=row.booking_id;assigned=row.barber_name||'';}catch(ex){if(!/customer_book_with_assignment|schema cache|could not find the function/i.test(String(ex.message)))throw ex;id=await window.CustomerAuth.rpc('customer_book',selection);}}
+else id=await window.CustomerAuth.rpc('customer_book',selection);
 if(!b){try{const records=await window.CustomerAuth.request('/rest/v1/bookings?id=eq.'+encodeURIComponent(id)+'&select=barber_name');
 if(records[0]?.barber_name)assigned=records[0].barber_name;
 }catch{}}const bookingDate=new Date(selection.p_date+'T12:00:00').toLocaleDateString('pt-BR');
