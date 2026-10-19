@@ -142,8 +142,9 @@ options('timechoice',[],'Agenda não ativada');
 return}
 await account();
 
-try{[services,barbers]=await Promise.all([api.request('/rest/v1/services?active=eq.true&select=id,name,duration,price&order=name'),api.request('/rest/v1/barbers?active=eq.true&select=id,name,photo_url&order=name')]);
+try{[services,barbers]=await Promise.all([api.request('/rest/v1/services?active=eq.true&select=*&order=name'),api.request('/rest/v1/barbers?active=eq.true&select=id,name,photo_url&order=name')]);
 renderTeam(barbers);
+window.ServiceCards?.render(services);
 options('servicechoice',services.map(s=>({id:s.id,label:`${s.name} — ${api.money(s.price)} — ${s.duration} min`})),'Selecione um corte');
 options('barberchoice',[{id:'any',label:'Sem preferência'},...barbers.map(b=>({id:b.id,label:b.name}))],'Selecione um barbeiro');
 $('date').min=api.day();

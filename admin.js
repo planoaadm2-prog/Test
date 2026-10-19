@@ -303,6 +303,8 @@ info.append(text);
 
 const actions=document.createElement('div');
 actions.className='catalog-actions';
+if(table==='services'){const edit=document.createElement('button');edit.type='button';edit.textContent='Editar serviço / foto';edit.onclick=()=>{ $('serviceid').value=r.id;$('servicename').value=r.name;$('price').value=r.price;$('duration').value=r.duration;$('servicedescription').value=r.description||'';$('servicephoto').value='';$('removeservicephoto').checked=false;$('servicepreview').hidden=!r.photo_url;$('servicepreview').src=r.photo_url||'';$('saveservice').textContent='Salvar serviço';$('resetservice').hidden=false;$('serviceform').scrollIntoView({behavior:'smooth',block:'center'});};actions.append(edit);}
+
 if(table==='barbers'){const detail=privateDetails.get(r.id)||{};
 if(r.photo_url){const photo=document.createElement('img');photo.className='barber-list-photo';photo.src=r.photo_url;photo.alt='Foto de '+r.name;photo.onerror=()=>photo.remove();info.prepend(photo);}
 const phone=document.createElement('small');
@@ -402,10 +404,16 @@ const name=$('servicename').value.trim();
 if(!name)return status('Informe o nome do serviço.');
 const button=e.target.querySelector('button');
 button.disabled=true;
-try{await request('/rest/v1/services',{method:'POST',body:{name,price:Number($('price').value),duration:Number($('duration').value)}});
+try{const id=$('serviceid').value,body={name,price:Number($('price').value),duration:Number($('duration').value)};
+const description=$('servicedescription').value.trim();
+if(description||id)body.description=description;
+if($('removeservicephoto').checked)body.photo_url=null;
+if($('servicephoto').files[0])body.photo_url=await window.ServiceCards.photo($('servicephoto').files[0]);
+await request('/rest/v1/services'+(id?'?id=eq.'+encodeURIComponent(id):''),{method:id?'PATCH':'POST',body});
+$('serviceid').value='';$('servicepreview').hidden=true;$('saveservice').textContent='Cadastrar serviço';$('resetservice').hidden=true;
 e.target.reset();
 await catalog();
-status('Serviço cadastrado.')}catch(ex){status(ex.message)}finally{button.disabled=false}};
+status('Serviço salvo.')}catch(ex){status(ex.message+(/photo_url|description|schema cache/.test(ex.message)?' Execute servicos-visuais.sql no Supabase para ativar fotos e descrições.':''))}finally{button.disabled=false}};
 
 $('resetbarber').onclick=()=>{$('barberform').reset();
 $('barberid').value='';
@@ -498,5 +506,8 @@ status(e.message);
 
 window.addEventListener('focus',()=>{if(session&&!$('panel').hidden)load()});
 
+$('resetservice').onclick=()=>{$('serviceform').reset();$('serviceid').value='';$('servicepreview').hidden=true;$('saveservice').textContent='Cadastrar serviço';$('resetservice').hidden=true;};
+
 })();
+
 

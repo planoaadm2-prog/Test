@@ -11,9 +11,9 @@
 <link rel="stylesheet" href="agenda-pro.css?v=agenda-20261017-18">
 <link rel="stylesheet" href="agenda-pro-v2.css?v=agenda-20261017-20">
 <link rel="stylesheet" href="agenda-pro-v3.css?v=agenda-20261017-21">
-<link rel="stylesheet" href="agenda-view.css?v=kryon-compat-20261018-38">
-<link rel="stylesheet" href="agenda-view-v2.css?v=kryon-compat-20261018-38">
-<link rel="stylesheet" href="agenda-cancel.css?v=kryon-compat-20261018-38">
+<link rel="stylesheet" href="agenda-view.css?v=services-39">
+<link rel="stylesheet" href="agenda-view-v2.css?v=services-39">
+<link rel="stylesheet" href="agenda-cancel.css?v=services-39">
 <link rel="stylesheet" href="attendance.css?v=integrado-20261017-17">
 <body class="staff-page">
 <main>
@@ -204,14 +204,14 @@
 <div class="catalog-screen">
 <article class="catalog-form">
 <h3>Cadastrar serviço</h3>
-<form id="serviceform">
+<form id="serviceform"><input id="serviceid" type="hidden">
 <label>Nome<input id="servicename" maxlength="80" required>
 </label>
 <label>Preço (R$)<input id="price" type="number" min="0" max="99999999" step="0.01" required>
 </label>
 <label>Duração (minutos)<input id="duration" type="number" min="5" max="600" step="5" required value="30">
 </label>
-<button>Cadastrar serviço</button>
+<label>Descrição do serviço<textarea id="servicedescription" maxlength="500" rows="3" placeholder="Explique o acabamento e o que está incluído."></textarea></label><label>Foto do corte (opcional)<input id="servicephoto" type="file" accept="image/jpeg,image/png,image/webp"></label><p>Selecione uma foto de até 3 MB. Na edição, deixe vazio para manter a atual.</p><img id="servicepreview" hidden alt="Foto do serviço" style="width:100%;max-height:220px;object-fit:contain"><label><input id="removeservicephoto" type="checkbox"> Remover foto atual</label><button id="saveservice">Cadastrar serviço</button><button id="resetservice" type="button" hidden>Cancelar edição</button>
 </form>
 </article>
 <article class="catalog-list">
@@ -279,7 +279,7 @@
 </div>
 <script src="config.js?v=foto-separada-20261016-10">
 </script>
-<script src="api.js?v=kryon-compat-20261018-38">
+<script src="api.js?v=services-39">
 </script>
 <script src="team.js?v=foto-separada-20261016-10">
 </script>
@@ -287,18 +287,18 @@
 </script>
 <script src="finance-model.js?v=foto-separada-20261016-10"></script>
 <script src="bi-model.js?v=bi-20261017-14"></script>
-<script src="whatsapp.js?v=kryon-compat-20261018-38">
+<script src="whatsapp.js?v=services-39">
 </script>
-<script src="staff-auth.js?v=kryon-compat-20261018-38">
+<script src="staff-auth.js?v=services-39">
 </script>
 <script src="staff-tabs.js?v=foto-separada-20261016-10">
 </script>
-<script src="admin.js?v=kryon-compat-20261018-38">
+<script src="service-cards.js?v=services-39"></script><script src="admin.js?v=services-39">
 </script>
 <script src="cash.js?v=gestao-20261017-15"></script>
 <script src="operations.js?v=gestao-20261017-22"></script>
 <script src="agenda-pro.js?v=agenda-20261017-21"></script>
 <script src="attendance-model.js?v=integrado-20261017-17"></script>
 <script src="attendance.js?v=integrado-20261017-17"></script>
-<script src="update-check.js?v=kryon-compat-20261018-38" data-version="kryon-compat-20261018-38"></script></body>
+<script src="update-check.js?v=services-39" data-version="services-39"></script></body>
 </html>
